@@ -45,6 +45,13 @@ async function main() {
 }
 main();
 
+app.get('/', (req, res) => {
+    res.send('Hello World');
+});
+
+
+
+
 // Routes to render different product listings and detail pages
 
 // Show all listings
@@ -285,3 +292,5 @@ app.get("/Contact_Us", (req, res) => {
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
+
+module.exports = app;
