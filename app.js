@@ -37,7 +37,8 @@ app.use(
 // Connect to MongoDB database
 async function main() {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/shoes_palace");
+    await mongoose.connect("mongodb+srv://<username>:<password>@cluster.mongodb.net/shoes_palace?retryWrites=true&w=majority");
+
     console.log("Connection successful");
   } catch (err) {
     console.log("Connection error", err);
@@ -285,8 +286,10 @@ app.get("/Contact_Us", (req, res) => {
 });
 
 // Start server on port 3000
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+// process.env.PORT, () => {
+//   console.log("Server running on port 3000");
+// });
+
+
 
 module.exports = app;
