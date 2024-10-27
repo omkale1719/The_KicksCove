@@ -45,17 +45,13 @@ async function main() {
 }
 main();
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
 
 
 
 // Routes to render different product listings and detail pages
 
 // Show all listings
-app.get("/showall", async (req, res) => {
+app.get("/", async (req, res) => {
   const allListing = await Listing.find({});
   res.render("./listings/showall.ejs", { allListing });
 });
