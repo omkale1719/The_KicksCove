@@ -51,7 +51,7 @@ main();
 // Routes to render different product listings and detail pages
 
 // Show all listings
-app.get("/", async (req, res) => {
+app.get("/showall", async (req, res) => {
   const allListing = await Listing.find({});
   res.render("./listings/showall.ejs", { allListing });
 });
