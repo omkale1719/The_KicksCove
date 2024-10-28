@@ -14,6 +14,7 @@ const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const Wishlist = require("./model/wishlist.js");
 const MongoStore = require("connect-mongo");
+const clientPromise = mongoose.connect(process.env.MONGODB_URI);
 require("dotenv").config(); // Load environment variables
 
 // Setting up EJS as the view engine and configuring view file paths
@@ -27,14 +28,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session management setup to handle user sessions, cookies, etc.
+
 app.use(
   session({
-    secret: "your_secret_key", // replace with a secure secret
+    secret: "your_secret_key", 
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
+    store: MongoStore.create({ clientPromise })
   })
 );
+
 
 // Connect to MongoDB database
 async function main() {
