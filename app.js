@@ -13,6 +13,7 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const Wishlist = require("./model/wishlist.js");
+const MongoStore = require("connect-mongo");
 
 // Setting up EJS as the view engine and configuring view file paths
 app.set("view engine", "ejs");
@@ -25,14 +26,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session management setup to handle user sessions, cookies, etc.
+
 app.use(
   session({
-    secret: "your_secret_key", // Should be stored securely in production
+    secret: "your_secret_key", // replace with a secure secret
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
   })
 );
+
 
 // Connect to MongoDB database
 async function main() {
