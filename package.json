@@ -18,7 +18,7 @@
     "express-session": "^1.18.1",
     "method-override": "^3.0.0",
     "mongodb": "^5.1.0",
-    "mongoose": "^7.0.0",  // येथे mongoose जोडा
+    "mongoose": "^7.0.0",  
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "session": "^0.1.0"
