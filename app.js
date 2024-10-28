@@ -1,7 +1,15 @@
 // Importing essential modules
+require("dotenv").config(); // Load environment variables at the very top
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const path = require("path");
+const ejsMate = require("ejs-mate");
+
+const app = express();
+
+// Models
 const Listing = require("./model/listing.js");
 const Sale = require("./model/sale.js");
 const New_A = require("./model/na.js");
@@ -9,13 +17,12 @@ const Men = require("./model/men.js");
 const Women = require("./model/women.js");
 const Collections = require("./model/collections.js");
 const Kids = require("./model/kids.js");
-const path = require("path");
-const ejsMate = require("ejs-mate");
-const session = require("express-session");
 const Wishlist = require("./model/wishlist.js");
-const MongoStore = require("connect-mongo");
-const clientPromise = mongoose.connect(process.env.MONGODB_URI);
-require("dotenv").config(); // Load environment variables
+
+// Database connection setup
+const clientPromise = mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch(err => console.log("Connection error", err));
 
 // Setting up EJS as the view engine and configuring view file paths
 app.set("view engine", "ejs");
@@ -27,29 +34,15 @@ app.engine("ejs", ejsMate);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session management setup to handle user sessions, cookies, etc.
-
+// Session management setup
 app.use(
   session({
-    secret: "your_secret_key", 
+    secret: "your_secret_key", // replace with a secure secret
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ clientPromise })
   })
 );
-
-
-// Connect to MongoDB database
-async function main() {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-
-    console.log("Connection successful");
-  } catch (err) {
-    console.log("Connection error", err);
-  }
-}
-main();
 
 // Routes to render different product listings and detail pages
 
@@ -141,10 +134,7 @@ async function getProductById(productModel, productId) {
   }
 }
 
-// Cart management routes
-// (remaining cart and wishlist routes)
-
-// Start server on port 3000
+// Start server on specified PORT
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
